@@ -5,21 +5,7 @@ import * as R from 'ramda';
 import { tap } from 'rxjs/operators';
 import { AppService } from './app.service';
 
-function getScoreColour(score: number | null, defaultColor = 'LightGray') {
-  if (R.isNil(score) || Number.isNaN(score) || score > 10) {
-    return defaultColor;
-  }
-  if (score <= 2.5) {
-    return '#ce181f';
-  }
-  if (score <= 5) {
-    return '#f47721';
-  }
-  if (score <= 7.5) {
-    return '#ffc709';
-  }
-  return '#d6e040';
-}
+
 
 @Component({
   selector: 'app-root',
@@ -112,7 +98,7 @@ export class AppComponent implements OnInit {
         .attr('class', (d: any) => 'country_' + d.properties.ISO_A2)
         .attr('d', path)
         .attr('fill', (d: any) =>
-          getScoreColour(this.getCountryScore(d.properties.ISO_A2))
+          this.getScoreColour(this.getCountryScore(d.properties.ISO_A2))
         )
         .style('stroke', 'black')
         .style('stroke-width', 0.3)
@@ -121,6 +107,22 @@ export class AppComponent implements OnInit {
           this.showDetails(d.properties.ISO_A2, d.properties.NAME)
         );
     });
+  }
+
+  private getScoreColour(score: number | null, defaultColor = 'LightGray') {
+    if (R.isNil(score) || Number.isNaN(score) || score > 10) {
+      return defaultColor;
+    }
+    if (score <= 2.5) {
+      return '#ce181f';
+    }
+    if (score <= 5) {
+      return '#f47721';
+    }
+    if (score <= 7.5) {
+      return '#ffc709';
+    }
+    return '#d6e040';
   }
 
   private getCountryScore(countryCode: string): number | undefined {
