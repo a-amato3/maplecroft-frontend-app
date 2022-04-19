@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
 
   constructor(private readonly appService: AppService) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.appService
       .getData()
       .pipe(tap((x) => (this.countryData = x)))
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
     this.loadGlobe();
   }
 
-  private loadGlobe() {
+  private loadGlobe(): void {
     const width = window.innerWidth;
     const height = window.innerHeight;
     const sensitivity = 75;
@@ -132,12 +132,15 @@ export class AppComponent implements OnInit {
     this.countryDetails = undefined;
   }
 
-  private showDetails(countryCode: string, countryName: string) {
+  private showDetails(countryCode: string, countryName: string): void {
     const country = this.countryData[countryCode];
     if (!country) {
       this.countryDetails = undefined;
       return;
     }
-    this.countryDetails = `${countryName}: ${country.score.toFixed(2)}`;
+
+    if (country.score !== undefined) {
+      this.countryDetails = `${countryName}: ${country.score.toFixed(2)}`;
+    }
   }
 }
