@@ -25,6 +25,12 @@ You've been asked to make some improvements to this application, listed below ar
 
 * To help your Team Lead plan for future development of this application provide a brief list of issues and/or improvements that could be made to this application.
 
+
+To improve this application, better use of architecture could be made to help scalability and modularisation of the code. The method loadGlobe which is in the app.component could be moved into its own service or component and then be injected into the app.component so the logic is separated from country information (score, and other details).
+
+The data could be stored on an endpoint to ensure security vulnerabilities are not breached and data is not easily accessible over the web.
+
+The app could also be upgraded to the latest version of Angular to ensure the best performance is met.
 ## Submission of Completed Test
 
 **Please do not fork this repository directly**, instead download/clone it, make your changes and upload to a new separate repository (e.g. GitHub, BitBucket etc.) or create a zip file from your local repo.
