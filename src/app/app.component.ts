@@ -3,8 +3,8 @@ import * as d3 from 'd3';
 import { event as d3Event } from 'd3-selection';
 import * as R from 'ramda';
 import { tap } from 'rxjs/operators';
-import { AppService } from './app.service';
-import { CountryDataModel } from './country-data';
+import { CountryDataModel } from './models/country-data';
+import { AppService } from './services/app.service';
 
 @Component({
   selector: 'app-root',
