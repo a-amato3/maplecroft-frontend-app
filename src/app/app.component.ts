@@ -5,8 +5,6 @@ import * as R from 'ramda';
 import { tap } from 'rxjs/operators';
 import { AppService } from './app.service';
 
-
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -122,12 +120,21 @@ export class AppComponent implements OnInit {
     if (score <= 7.5) {
       return '#ffc709';
     }
+    if (score == 0) {
+      return '#FFFFFF';
+    }
     return '#d6e040';
   }
 
   private getCountryScore(countryCode: string): number | undefined {
     const country = this.countryData[countryCode];
-    return country ? country.score : undefined;
+    if (country) {
+      if (country.entitled == true) {
+        return country.score;
+      } else {
+        undefined;
+      }
+    }
   }
 
   private clearDetails() {
@@ -135,6 +142,8 @@ export class AppComponent implements OnInit {
   }
 
   private showDetails(countryCode: string, countryName: string): void {
+    console.log('TEMP MESSAGE:', this.countryData);
+
     const country = this.countryData[countryCode];
     if (!country) {
       this.countryDetails = undefined;
@@ -143,6 +152,10 @@ export class AppComponent implements OnInit {
 
     if (country.score !== undefined) {
       this.countryDetails = `${countryName}: ${country.score.toFixed(2)}`;
+    }
+
+    if (country.entitled == false) {
+      this.countryDetails = '';
     }
   }
 }
