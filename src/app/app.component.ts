@@ -4,6 +4,7 @@ import { event as d3Event } from 'd3-selection';
 import * as R from 'ramda';
 import { tap } from 'rxjs/operators';
 import { AppService } from './app.service';
+import { CountryDataModel } from './country-data';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,7 @@ import { AppService } from './app.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'globe-demo';
-
-  private countryData;
+  private countryData: CountryDataModel;
   public countryDetails: string | undefined;
 
   constructor(private readonly appService: AppService) {}
@@ -21,7 +20,9 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this.appService
       .getData()
-      .pipe(tap((x) => (this.countryData = x)))
+      .pipe(
+        tap((countryData: CountryDataModel) => (this.countryData = countryData))
+      )
       .subscribe();
 
     this.loadGlobe();
@@ -59,7 +60,7 @@ export class AppComponent implements OnInit {
 
     svg
       .call(
-        d3.drag().on('drag', () => {
+        d3.drag().on('drag', (): void => {
           const rotate = projection.rotate();
           const k = sensitivity / projection.scale();
           projection.rotate([
@@ -71,7 +72,7 @@ export class AppComponent implements OnInit {
         })
       )
       .call(
-        d3.zoom().on('zoom', () => {
+        d3.zoom().on('zoom', (): void => {
           if (d3Event.transform.k > 0.3) {
             projection.scale(initialScale * d3Event.transform.k);
             path = d3.geoPath().projection(projection);
@@ -85,7 +86,7 @@ export class AppComponent implements OnInit {
 
     const map = svg.append('g');
 
-    d3.json('assets/ne_110m_admin_0_countries.json', (err, d) => {
+    d3.json('assets/ne_110m_admin_0_countries.json', (err, d): void => {
       map
         .append('g')
         .attr('class', 'countries')
@@ -120,9 +121,6 @@ export class AppComponent implements OnInit {
     if (score <= 7.5) {
       return '#ffc709';
     }
-    if (score == 0) {
-      return '#FFFFFF';
-    }
     return '#d6e040';
   }
 
@@ -135,7 +133,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  private clearDetails() {
+  private clearDetails(): void {
     this.countryDetails = undefined;
   }
 
@@ -151,7 +149,7 @@ export class AppComponent implements OnInit {
     }
 
     if (country.entitled == false) {
-      this.countryDetails = '';
+      this.countryDetails = null;
     }
   }
 }
