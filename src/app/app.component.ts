@@ -131,8 +131,6 @@ export class AppComponent implements OnInit {
     if (country) {
       if (country.entitled == true) {
         return country.score;
-      } else {
-        undefined;
       }
     }
   }
@@ -142,8 +140,6 @@ export class AppComponent implements OnInit {
   }
 
   private showDetails(countryCode: string, countryName: string): void {
-    console.log('TEMP MESSAGE:', this.countryData);
-
     const country = this.countryData[countryCode];
     if (!country) {
       this.countryDetails = undefined;
